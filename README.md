@@ -1,6 +1,7 @@
 Totpy
 =====
-Desktop authenticator for generating one-time passwords based on [TOTP Protocol](https://www.rfc-editor.org/rfc/pdfrfc/rfc6238.txt.pdf).
+Desktop authenticator for generating one-time passwords based on [TOTP Protocol](https://www.rfc-editor.org/rfc/pdfrfc/rfc6238.txt.pdf).  
+Compatible mobile version of this app is also available: [totpy-mobile-authenticator](https://github.com/FilipBlazekovic/totpy-mobile-authenticator).
 
 Supports:
 
