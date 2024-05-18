@@ -217,6 +217,7 @@ public class CryptoHandler {
   private static ExportLocked generateECIESLockedExport(List<Token> tokens, PublicKey peerPublicKey) {
     val keyPair = EC.generateKeyPair();
     val secretKey = KDF.hkdf(
+        keyPair.getPublic(),
         ECDH.derive(keyPair.getPrivate(), peerPublicKey)
     );
 

@@ -24,6 +24,7 @@
     <jackson-datatype-jsr310.version>2.14.2</jackson-datatype-jsr310.version>
     <bcpkix-jdk15on.version>1.70</bcpkix-jdk15on.version>
     <bcprov-jdk15on.version>1.70</bcprov-jdk15on.version>
+    <google-tink.version>1.13.0</google-tink.version>
     <sqlite-jdbc.version>3.43.2.2</sqlite-jdbc.version>
     <xzing-core.version>3.5.1</xzing-core.version>
     <xzing-javasee.version>3.5.1</xzing-javasee.version>
@@ -98,6 +99,12 @@
       <groupId>org.bouncycastle</groupId>
       <artifactId>bcpkix-jdk15on</artifactId>
       <version>${bcpkix-jdk15on.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.crypto.tink</groupId>
+      <artifactId>tink</artifactId>
+      <version>${google-tink.version}</version>
     </dependency>
 
     <dependency>

@@ -1,5 +1,7 @@
 package com.filipblazekovic.totpy.crypto;
 
+import com.google.crypto.tink.subtle.Hkdf;
+import java.security.PublicKey;
 import java.security.SecureRandom;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
@@ -7,9 +9,6 @@ import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 import lombok.SneakyThrows;
 import lombok.val;
-import org.bouncycastle.crypto.digests.SHA512Digest;
-import org.bouncycastle.crypto.generators.HKDFBytesGenerator;
-import org.bouncycastle.crypto.params.HKDFParameters;
 
 public class KDF {
 
@@ -19,6 +18,7 @@ public class KDF {
 
   private static final String KEY_ALGORITHM = "AES";
   private static final String PBKDF2_ALGORITHM = "PBKDF2WithHmacSHA512";
+  private static final String HKDF_ALGORITHM = "HmacSHA512";
 
   private KDF() {
   }
@@ -48,15 +48,21 @@ public class KDF {
     );
   }
 
+  // Use ephemoral public key here (on both sides of ECDH),
+  // the one who's private key was used to encrypt the data
   @SneakyThrows
-  static SecretKey hkdf(byte[] sharedSecret) {
-    val key = new byte[DESIRED_KEY_LENGTH];
-    val salt = new byte[0];
-    val info = new byte[0];
-    val hkdf = new HKDFBytesGenerator(new SHA512Digest());
-    hkdf.init(new HKDFParameters(sharedSecret, salt, info));
-    hkdf.generateBytes(key, 0, DESIRED_KEY_LENGTH);
-    return new SecretKeySpec(key, KEY_ALGORITHM);
+  static SecretKey hkdf(PublicKey ephemoralPublicKey, byte[] sharedSecret) {
+    return new SecretKeySpec(
+        Hkdf.computeEciesHkdfSymmetricKey(
+            ephemoralPublicKey.getEncoded(),
+            sharedSecret,
+            HKDF_ALGORITHM,
+            new byte[0],
+            new byte[0],
+            DESIRED_KEY_LENGTH
+        ),
+        KEY_ALGORITHM
+    );
   }
 
 }
