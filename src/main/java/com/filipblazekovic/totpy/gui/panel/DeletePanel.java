@@ -56,6 +56,7 @@ public class DeletePanel extends JPanel {
 
       selectAllCheckBox.setSelected(false);
 
+      TokensScreen.getInstance().showScanQRCodePanel();
       TokensScreen.getInstance().refresh(
           DBHandler
               .getTokens()
@@ -63,8 +64,6 @@ public class DeletePanel extends JPanel {
               .map(CryptoHandler::unlockToken)
               .toList()
       );
-
-      TokensScreen.getInstance().showScanQRCodePanel();
     });
 
     val closeButton = new JButton(IconStore.get(CoreIcon.CLOSE));
@@ -75,9 +74,8 @@ public class DeletePanel extends JPanel {
     });
 
     this.add(selectAllCheckBox, "push, al left");
+    this.add(closeButton, "alignx center");
     this.add(deleteButton, "alignx center");
-    this.add(closeButton, "alignx center");
-    this.add(closeButton, "alignx center");
   }
 
 }

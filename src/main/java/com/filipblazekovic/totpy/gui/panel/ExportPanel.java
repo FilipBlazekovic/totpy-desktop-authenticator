@@ -65,8 +65,8 @@ public class ExportPanel extends JPanel {
     closeButton.addActionListener(e -> TokensScreen.getInstance().showScanQRCodePanel());
 
     this.add(selectAllCheckBox, "push, al left");
-    this.add(exportButton, "alignx center");
     this.add(closeButton, "alignx center");
+    this.add(exportButton, "alignx center");
   }
 
 }

@@ -25,7 +25,6 @@ public class IconPanel extends JPanel {
     this.setPreferredSize(DIMENSION);
     this.setMaximumSize(DIMENSION);
     this.setMinimumSize(DIMENSION);
-
   }
 
   @Override

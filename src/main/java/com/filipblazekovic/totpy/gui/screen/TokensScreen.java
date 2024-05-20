@@ -262,6 +262,7 @@ public class TokensScreen extends JPanel {
     tokenPanels.addAll(authenticators.stream().map(TokenPanel::new).toList());
     tokenPanels.forEach(mainPane::add);
     mainPane.validate();
+    mainPane.repaint();
     scrollPane.validate();
 
     otpRecalculationTaskController = executor.scheduleAtFixedRate(
@@ -279,6 +280,8 @@ public class TokensScreen extends JPanel {
     tokenPanels.forEach(tp -> {
       Arrays.fill(tp.getToken().secret(), (byte) '\0');
       tp.setOtp("******");
+      tp.validate();
+      tp.repaint();
     });
     tokenPanels.clear();
     mainPane.removeAll();
@@ -297,7 +300,7 @@ public class TokensScreen extends JPanel {
       val account = t.account().toLowerCase();
       val category = t.category().getDisplayName().toLowerCase();
 
-      if (category.equals(finalSearchPhrase)) {
+      if (category.contains(finalSearchPhrase)) {
         tp.setVisible(true);
         return;
       }

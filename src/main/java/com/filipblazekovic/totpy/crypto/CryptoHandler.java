@@ -182,6 +182,7 @@ public class CryptoHandler {
 
   @SneakyThrows
   public static ExportLocked generateLockedExport(List<Token> tokens, ExportPassword exportPassword) {
+    PasswordHandler.validate(exportPassword.password(), exportPassword.passwordConfirmation());
     final byte[] salt = KDF.generateSalt();
     final SecretKey secretKey = KDF.pbkdf2(exportPassword.password(), salt);
     Arrays.fill(exportPassword.password(), '\0');

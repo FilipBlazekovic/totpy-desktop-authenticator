@@ -47,7 +47,7 @@ public final class AES {
 
   @SneakyThrows
   public static byte[] decrypt(SecretKey key, String ciphertext) {
-    // GCM CIPHERTEXT FORMAT [NONCE (12 bytes) | CIHERTEXT | TAG(16 bytes)]
+    // GCM CIPHERTEXT FORMAT [NONCE (12 bytes) | CIHERTEXT | TAG (16 bytes)]
     val decodedCiphertext = Base64.getDecoder().decode(ciphertext);
     val iv = Arrays.copyOfRange(decodedCiphertext, 0, GCM_IV_LENGTH);
     val ciphertextAndTag = Arrays.copyOfRange(decodedCiphertext, GCM_IV_LENGTH, decodedCiphertext.length);

@@ -224,7 +224,7 @@ public class AddEditTokenDialog extends JDialog {
     } catch (Exception ex) {
       JOptionPane.showMessageDialog(
           this,
-          ex.getMessage(),
+          ex.getMessage() == null ? GUICommon.GENERIC_ERROR_MESSAGE : ex.getMessage(),
           GUICommon.WINDOW_TITLE,
           JOptionPane.ERROR_MESSAGE
       );

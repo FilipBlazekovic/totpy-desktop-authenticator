@@ -1,6 +1,7 @@
 package com.filipblazekovic.totpy.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.filipblazekovic.totpy.model.inout.AboutConfig;
 import com.filipblazekovic.totpy.model.inout.Config;
 import com.filipblazekovic.totpy.model.inout.ExportLocked;
@@ -53,14 +54,21 @@ public class IOHandler {
   @SneakyThrows
   public static Config loadConfig() {
     try (val input = new FileInputStream(CONFIG_PATH)) {
-      return new ObjectMapper().readValue(input, Config.class);
+      return new ObjectMapper()
+          .registerModule(new JavaTimeModule())
+          .readValue(input, Config.class);
     }
   }
 
   @SneakyThrows
   public static void saveConfig(Config config) {
     try (val output = new FileOutputStream(CONFIG_PATH)) {
-      output.write(new ObjectMapper().writeValueAsString(config).getBytes(StandardCharsets.UTF_8));
+      output.write(
+          new ObjectMapper()
+              .registerModule(new JavaTimeModule())
+              .writeValueAsString(config)
+              .getBytes(StandardCharsets.UTF_8)
+      );
     }
   }
 
