@@ -48,8 +48,8 @@ public class KDF {
     );
   }
 
-  // Use ephemoral public key here (on both sides of ECDH),
-  // the one who's private key was used to encrypt the data
+  // Ephemeral public key used here (on both sides of ECDH),
+  // is the sender's (encryptor's) public key
   @SneakyThrows
   static SecretKey hkdf(PublicKey ephemoralPublicKey, byte[] sharedSecret) {
     return new SecretKeySpec(
