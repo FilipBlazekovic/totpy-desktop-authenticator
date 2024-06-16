@@ -5,10 +5,13 @@ import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.spec.MGF1ParameterSpec;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 import javax.crypto.Cipher;
+import javax.crypto.spec.OAEPParameterSpec;
+import javax.crypto.spec.PSource;
 import lombok.SneakyThrows;
 import lombok.val;
 
@@ -48,7 +51,16 @@ public class RSA {
   @SneakyThrows
   static String encrypt(PublicKey publicKey, byte[] plaintext) {
     val cipher = Cipher.getInstance(ENCRYPTION_ALGORITHM);
-    cipher.init(Cipher.ENCRYPT_MODE, publicKey);
+    cipher.init(
+        Cipher.ENCRYPT_MODE,
+        publicKey,
+        new OAEPParameterSpec(
+            "SHA-256",
+            "MGF1",
+            MGF1ParameterSpec.SHA1,
+            PSource.PSpecified.DEFAULT
+        )
+    );
     return Base64.getEncoder().encodeToString(
         cipher.doFinal(plaintext)
     );
@@ -57,7 +69,16 @@ public class RSA {
   @SneakyThrows
   static byte[] decrypt(PrivateKey privateKey, String ciphertext) {
     val cipher = Cipher.getInstance(ENCRYPTION_ALGORITHM);
-    cipher.init(Cipher.DECRYPT_MODE, privateKey);
+    cipher.init(
+        Cipher.DECRYPT_MODE,
+        privateKey,
+        new OAEPParameterSpec(
+            "SHA-256",
+            "MGF1",
+            MGF1ParameterSpec.SHA1,
+            PSource.PSpecified.DEFAULT
+        )
+    );
     return cipher.doFinal(
         Base64.getDecoder().decode(ciphertext)
     );
